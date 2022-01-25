@@ -6,22 +6,62 @@
 
 Feedback::Feedback(std::string const & answer, std::string const & guess)
 {
-    for (int i = 0; i < 5; ++i)
+    std::array<bool, 5> used;
+    used.fill(false);
+
+    // assume not found
+    result_.fill(Result::NONE);
+
+    // find exact matches
+    for (int i{0}; i<5; ++i)
     {
-        if(guess[i] == answer [i])
+        if (guess[i] == answer[i])
         {
             result_[i] = Result::CORRECT;
-            continue;
+            used[i] = true;
         }
-
-        if(answer.find(guess[i]) == std::string::npos)
-        {
-            result_[i] = Result::NONE;
-            continue;
-        }
-
-        result_[i] = Result::MISPLACED;
     }
+
+    // find wrong locations
+    for (int i{0}; i<5; ++i)
+    {
+        if(result_[i] == Result::CORRECT) continue;
+        for (int j{0}; j<5; ++j)
+        {
+            if (!used[j] && answer[j]==guess[i])
+            {
+                result_[i] = Result::MISPLACED;
+                used[j] = true;
+                break;
+            }
+        }
+    }
+//
+//
+//    for (int i = 0; i < 5; ++i)
+//    {
+//        if(guess[i] == answer[i])
+//        {
+//            result_[i] = Result::CORRECT;
+//            used[i] = true;
+//            continue;
+//        }
+//        bool found = false;
+//        for(int j = 0; j < 5 && !found; ++j)
+//        {
+//            if(answer[j] == guess[i] && !used[j])
+//            {
+//                result_[i] = Result::MISPLACED;
+//                used[j] = true;
+//                found = true;
+//                continue;
+//            }
+//        }
+//        if(!found)
+//        {
+//            result_[i] = Result::NONE;
+//        }
+//    }
 
 }
 

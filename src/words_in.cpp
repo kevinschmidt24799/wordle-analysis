@@ -11,14 +11,14 @@ std::vector<std::string> get_words()
     std::ifstream inFile;
     std::string temp;
 
-    inFile.open("wordle-allowed-guesses.txt");
+    inFile.open("words/wordle-allowed-guesses.txt");
     while(getline(inFile, temp))
     {
         words.push_back(std::move(temp));
     }
     inFile.close();
 
-    inFile.open("wordle-answers-alphabetical.txt");
+    inFile.open("words/wordle-answers-alphabetical.txt");
     while(getline(inFile, temp))
     {
         words.push_back(std::move(temp));
