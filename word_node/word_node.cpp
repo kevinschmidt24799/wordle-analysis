@@ -7,10 +7,17 @@
 #include "feedback.hpp"
 #include <iostream>
 
-WordNode::WordNode(std::vector<std::string> const & all_words, std::vector<std::string> const & viable_words, int depth /* depth_remaining */)
+WordNode::WordNode(std::vector<std::string> const & all_words, std::vector<std::string> const & viable_words, bool limited, int depth /* depth_remaining */)
 {
+    if(viable_words.size()==1)
+    {
+        word_ = viable_words[0];
+        return;
+    }
+
     int min = std::numeric_limits<int>::max();
     std::string min_word;
+
     for (auto const &wd: all_words)
     {
         int max_ans;
@@ -54,11 +61,11 @@ WordNode::WordNode(std::vector<std::string> const & all_words, std::vector<std::
 
     for(int i = 0; i < 242; ++i)
     {
-        if(! partitions_[i].empty())
+        if(!partitions_[i].empty())
         {
             // if(depth_remaining > 1)
             {
-                children_[i] = new WordNode{partitions_[i], partitions_[i], depth+1 /* depth_remaining-1 */};
+                children_[i] = new WordNode{limited ? partitions_[i] : all_words, partitions_[i], limited, depth+1 /* depth_remaining-1 */};
             }
         }
     }

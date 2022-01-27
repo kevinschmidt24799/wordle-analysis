@@ -21,7 +21,7 @@ public:
 
     std::array<WordNode *, 242> children_{};
 
-    WordNode(std::vector<std::string> const & all_words, std::vector<std::string> const & viable_words, int depth=0 /* int depth_remaining = std::numeric_limits<int>::max() */);
+    WordNode(std::vector<std::string> const & all_words, std::vector<std::string> const & viable_words, bool limited, int depth=0 /* int depth_remaining = std::numeric_limits<int>::max() */);
 
     void dump(std::size_t depth) const;
     json get_json() const;
